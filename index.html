@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <title>Gamepad Overlay</title>
@@ -12,25 +12,78 @@ body {
     font-family: Arial;
 }
 
+/* Container */
 #wrap {
     position: absolute;
     left: 50px;
     top: 50px;
+    display: flex;
+    gap: 40px;
+    align-items: center;
 }
 
+/* =========================
+   GENERIC BUTTON STYLE
+========================= */
 .btn {
     width: 60px;
     height: 60px;
-    margin: 5px;
-    background: rgba(255,255,255,0.2);
-    display: inline-block;
-    border-radius: 10px;
-    opacity: 0.3;
+    border-radius: 12px;
+
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.35);
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+
+    opacity: 1;
+    transition: 0.1s ease;
 }
 
+/* Aktiv */
 .active {
-    opacity: 1;
-    background: rgba(0,255,0,0.6);
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 0 12px rgba(255,255,255,0.8);
+}
+
+/* =========================
+   D-PAD LAYOUT (KREUZFORM)
+========================= */
+#dpad {
+    display: grid;
+    grid-template-columns: 60px 60px 60px;
+    grid-template-rows: 60px 60px 60px;
+    gap: 6px;
+}
+
+/* Positionierung im Kreuz */
+#up    { grid-column: 2; grid-row: 1; }
+#left  { grid-column: 1; grid-row: 2; }
+#right { grid-column: 3; grid-row: 2; }
+#down  { grid-column: 2; grid-row: 3; }
+
+/* Leere Felder unsichtbar */
+.empty {
+    width: 60px;
+    height: 60px;
+    opacity: 0;
+}
+
+/* =========================
+   BUTTONS (A / X)
+========================= */
+#buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.label {
+    position: absolute;
+    width: 60px;
+    text-align: center;
+    margin-top: 18px;
+    color: rgba(0,0,0,0.6);
+    font-weight: bold;
+    pointer-events: none;
 }
 </style>
 </head>
@@ -38,20 +91,41 @@ body {
 <body>
 
 <div id="wrap">
-    <div id="up" class="btn"></div><br>
-    <div id="left" class="btn"></div>
-    <div id="down" class="btn"></div>
-    <div id="right" class="btn"></div>
 
-    <br><br>
+    <!-- D-Pad -->
+    <div id="dpad">
+        <div class="empty"></div>
+        <div id="up" class="btn"></div>
+        <div class="empty"></div>
 
-    <div id="a" class="btn">A</div>
-    <div id="x" class="btn">X</div>
+        <div id="left" class="btn"></div>
+        <div class="empty"></div>
+        <div id="right" class="btn"></div>
+
+        <div class="empty"></div>
+        <div id="down" class="btn"></div>
+        <div class="empty"></div>
+    </div>
+
+    <!-- A / X -->
+    <div id="buttons">
+        <div style="position:relative">
+            <div id="a" class="btn"></div>
+            <div class="label">A</div>
+        </div>
+
+        <div style="position:relative">
+            <div id="x" class="btn"></div>
+            <div class="label">X</div>
+        </div>
+    </div>
+
 </div>
 
 <script>
 function loop() {
     const gp = navigator.getGamepads()[0];
+
     if (gp) {
         set("up", gp.buttons[12]?.pressed);
         set("down", gp.buttons[13]?.pressed);
@@ -61,11 +135,13 @@ function loop() {
         set("a", gp.buttons[0]?.pressed);
         set("x", gp.buttons[2]?.pressed);
     }
+
     requestAnimationFrame(loop);
 }
 
-function set(id, val) {
-    document.getElementById(id).classList.toggle("active", val);
+function set(id, pressed) {
+    document.getElementById(id)
+        .classList.toggle("active", pressed);
 }
 
 loop();
