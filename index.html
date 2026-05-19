@@ -1,41 +1,18 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8">
-<title>Gamepad Overlay</title>
-
-<style>
-body {
-    margin: 0;
-    background: transparent;
-    overflow: hidden;
-    font-family: Arial;
-}
-
 /* =========================
-   MAIN LAYOUT
-========================= */
-#wrap {
-    position: absolute;
-    left: 50px;
-    top: 50px;
-    display: flex;
-    gap: 45px;
-    align-items: center;
-}
-
-/* =========================
-   BASE BUTTON STYLE
+   BASE BUTTON STYLE (DARK GREY)
 ========================= */
 .btn {
     width: 60px;
     height: 60px;
 
     border-radius: 12px;
-    background: rgba(255,255,255,0.08);
-    border: 2px solid rgba(255,255,255,0.35);
 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    /* dunkelgraue Füllung */
+    background: rgba(40, 40, 40, 0.95);
+
+    border: 2px solid rgba(255,255,255,0.15);
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
 
     display: flex;
     align-items: center;
@@ -50,68 +27,19 @@ body {
 }
 
 /* =========================
-   D-PAD
+   CIRCLE BUTTONS (A / X)
 ========================= */
-#dpad {
-    display: grid;
-    grid-template-columns: 60px 60px 60px;
-    grid-template-rows: 60px 60px 60px;
-    gap: 6px;
-}
-
-#up    { grid-column: 2; grid-row: 1; }
-#left  { grid-column: 1; grid-row: 2; }
-#right { grid-column: 3; grid-row: 2; }
-#down  { grid-column: 2; grid-row: 3; }
-
-.empty {
-    opacity: 0;
-}
-
-/* Pfeile: IMMER weiß */
-.arrow {
-    font-size: 28px;
-    font-weight: bold;
-    color: rgba(255,255,255,0.9);
-}
-
-.active .arrow {
-    color: rgba(0,0,0,0.9);
-}
-
-/* =========================
-   A / X BUTTONS (XBOX STYLE)
-========================= */
-#buttons {
-    position: relative;
-    width: 140px;
-    height: 120px;
-}
-
-/* A BUTTON (unten rechts) */
-#a {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-}
-
-/* X BUTTON (links + höher wie Xbox Layout) */
-#x {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-/* CIRCLE STYLE */
 .circle {
     width: 65px;
     height: 65px;
     border-radius: 50%;
 
-    background: rgba(255,255,255,0.08);
-    border: 2px solid rgba(255,255,255,0.35);
+    /* dunkelgrau gefüllt */
+    background: rgba(40, 40, 40, 0.95);
 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    border: 2px solid rgba(255,255,255,0.15);
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
 
     display: flex;
     align-items: center;
@@ -130,70 +58,3 @@ body {
     box-shadow: 0 0 12px rgba(255,255,255,0.8);
     color: rgba(0,0,0,0.9);
 }
-</style>
-</head>
-
-<body>
-
-<div id="wrap">
-
-    <!-- D-PAD -->
-    <div id="dpad">
-
-        <div class="empty"></div>
-
-        <div id="up" class="btn"><div class="arrow">▲</div></div>
-
-        <div class="empty"></div>
-
-        <div id="left" class="btn"><div class="arrow">◀</div></div>
-
-        <div class="empty"></div>
-
-        <div id="right" class="btn"><div class="arrow">▶</div></div>
-
-        <div class="empty"></div>
-
-        <div id="down" class="btn"><div class="arrow">▼</div></div>
-
-        <div class="empty"></div>
-
-    </div>
-
-    <!-- A / X -->
-    <div id="buttons">
-
-        <div id="x" class="circle">X</div>
-        <div id="a" class="circle">A</div>
-
-    </div>
-
-</div>
-
-<script>
-function loop() {
-    const gp = navigator.getGamepads()[0];
-
-    if (gp) {
-        set("up", gp.buttons[12]?.pressed);
-        set("down", gp.buttons[13]?.pressed);
-        set("left", gp.buttons[14]?.pressed);
-        set("right", gp.buttons[15]?.pressed);
-
-        set("a", gp.buttons[0]?.pressed);
-        set("x", gp.buttons[2]?.pressed);
-    }
-
-    requestAnimationFrame(loop);
-}
-
-function set(id, pressed) {
-    document.getElementById(id)
-        .classList.toggle("active", pressed);
-}
-
-loop();
-</script>
-
-</body>
-</html>
