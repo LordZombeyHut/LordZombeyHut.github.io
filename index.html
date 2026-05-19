@@ -12,7 +12,7 @@ body {
     font-family: Arial;
 }
 
-/* Container */
+/* Layout */
 #wrap {
     position: absolute;
     left: 50px;
@@ -23,7 +23,7 @@ body {
 }
 
 /* =========================
-   GENERIC BUTTON STYLE
+   BUTTON BASE
 ========================= */
 .btn {
     width: 60px;
@@ -35,18 +35,21 @@ body {
 
     box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 
-    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     transition: 0.1s ease;
 }
 
-/* Aktiv */
+/* active state */
 .active {
     background: rgba(255,255,255,0.9);
     box-shadow: 0 0 12px rgba(255,255,255,0.8);
 }
 
 /* =========================
-   D-PAD LAYOUT (KREUZFORM)
+   D-PAD (KREUZ)
 ========================= */
 #dpad {
     display: grid;
@@ -55,35 +58,62 @@ body {
     gap: 6px;
 }
 
-/* Positionierung im Kreuz */
+/* Position */
 #up    { grid-column: 2; grid-row: 1; }
 #left  { grid-column: 1; grid-row: 2; }
 #right { grid-column: 3; grid-row: 2; }
 #down  { grid-column: 2; grid-row: 3; }
 
-/* Leere Felder unsichtbar */
 .empty {
-    width: 60px;
-    height: 60px;
     opacity: 0;
 }
 
+/* Pfeile */
+.arrow {
+    font-size: 28px;
+    font-weight: bold;
+    color: rgba(0,0,0,0.65);
+}
+
+/* active arrow */
+.active .arrow {
+    color: rgba(0,0,0,0.9);
+}
+
 /* =========================
-   BUTTONS (A / X)
+   A / X CIRCLES
 ========================= */
+.circle {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.35);
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 30px;
+    font-weight: bold;
+    color: rgba(0,0,0,0.65);
+
+    transition: 0.1s ease;
+}
+
+.circle.active {
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 0 12px rgba(255,255,255,0.8);
+    color: rgba(0,0,0,0.9);
+}
+
+/* container right side */
 #buttons {
     display: flex;
     gap: 15px;
-}
-
-.label {
-    position: absolute;
-    width: 60px;
-    text-align: center;
-    margin-top: 18px;
-    color: rgba(0,0,0,0.6);
-    font-weight: bold;
-    pointer-events: none;
 }
 </style>
 </head>
@@ -92,31 +122,42 @@ body {
 
 <div id="wrap">
 
-    <!-- D-Pad -->
+    <!-- D-PAD -->
     <div id="dpad">
-        <div class="empty"></div>
-        <div id="up" class="btn"></div>
-        <div class="empty"></div>
-
-        <div id="left" class="btn"></div>
-        <div class="empty"></div>
-        <div id="right" class="btn"></div>
 
         <div class="empty"></div>
-        <div id="down" class="btn"></div>
+
+        <div id="up" class="btn">
+            <div class="arrow">▲</div>
+        </div>
+
         <div class="empty"></div>
+
+        <div id="left" class="btn">
+            <div class="arrow">◀</div>
+        </div>
+
+        <div class="empty"></div>
+
+        <div id="right" class="btn">
+            <div class="arrow">▶</div>
+        </div>
+
+        <div class="empty"></div>
+
+        <div id="down" class="btn">
+            <div class="arrow">▼</div>
+        </div>
+
+        <div class="empty"></div>
+
     </div>
 
     <!-- A / X -->
     <div id="buttons">
 
-        <div id="a" class="btn">
-        <div class="btn-text">A</div>
-        </div>
-
-        <div id="x" class="btn">
-        <div class="btn-text">X</div>
-        </div>
+        <div id="a" class="circle">A</div>
+        <div id="x" class="circle">X</div>
 
     </div>
 
