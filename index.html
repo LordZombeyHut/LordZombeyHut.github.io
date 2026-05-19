@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Gamepad Overlay</title>
+
+<style>
+body {
+    margin: 0;
+    background: transparent;
+    overflow: hidden;
+    font-family: Arial;
+}
+
+#wrap {
+    position: absolute;
+    left: 50px;
+    top: 50px;
+}
+
+.btn {
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+    background: rgba(255,255,255,0.2);
+    display: inline-block;
+    border-radius: 10px;
+    opacity: 0.3;
+}
+
+.active {
+    opacity: 1;
+    background: rgba(0,255,0,0.6);
+}
+</style>
+</head>
+
+<body>
+
+<div id="wrap">
+    <div id="up" class="btn"></div><br>
+    <div id="left" class="btn"></div>
+    <div id="down" class="btn"></div>
+    <div id="right" class="btn"></div>
+
+    <br><br>
+
+    <div id="a" class="btn">A</div>
+    <div id="x" class="btn">X</div>
+</div>
+
+<script>
+function loop() {
+    const gp = navigator.getGamepads()[0];
+    if (gp) {
+        set("up", gp.buttons[12]?.pressed);
+        set("down", gp.buttons[13]?.pressed);
+        set("left", gp.buttons[14]?.pressed);
+        set("right", gp.buttons[15]?.pressed);
+
+        set("a", gp.buttons[0]?.pressed);
+        set("x", gp.buttons[2]?.pressed);
+    }
+    requestAnimationFrame(loop);
+}
+
+function set(id, val) {
+    document.getElementById(id).classList.toggle("active", val);
+}
+
+loop();
+</script>
+
+</body>
+</html>
