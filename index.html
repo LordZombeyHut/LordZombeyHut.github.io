@@ -172,13 +172,30 @@ function loop() {
     const gp = navigator.getGamepads()[0];
 
     if (gp) {
+
+        // D-Pad
         set("up", gp.buttons[12]?.pressed);
         set("down", gp.buttons[13]?.pressed);
         set("left", gp.buttons[14]?.pressed);
         set("right", gp.buttons[15]?.pressed);
 
-        set("a", gp.buttons[0]?.pressed);
-        set("x", gp.buttons[2]?.pressed);
+        // Controller Name prüfen
+        const isNintendo =
+            gp.id.toLowerCase().includes("nintendo") ||
+            gp.id.toLowerCase().includes("switch");
+
+        if (isNintendo) {
+
+            // Nintendo Switch Pro Controller
+            set("a", gp.buttons[1]?.pressed);
+            set("x", gp.buttons[3]?.pressed);
+
+        } else {
+
+            // Xbox / Standard Controller
+            set("a", gp.buttons[0]?.pressed);
+            set("x", gp.buttons[2]?.pressed);
+        }
     }
 
     requestAnimationFrame(loop);
